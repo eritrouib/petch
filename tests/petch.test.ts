@@ -1,7 +1,8 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { petch, createPetch, PetchError, PetchTimeoutError } from "../src/index.js";
 
 // Mock global fetch
-const mockFetch = jest.fn();
+const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 function mockResponse(body: unknown, status = 200, headers: Record<string, string> = {}) {
@@ -118,7 +119,7 @@ describe("retry", () => {
       .mockResolvedValueOnce(mockResponse({}, 503))
       .mockResolvedValueOnce(mockResponse({ ok: true }));
 
-    const onRetry = jest.fn();
+    const onRetry = vi.fn();
 
     await petch("https://example.com/api", {
       retry: { attempts: 2, delay: 1, backoff: 1 },
@@ -153,20 +154,24 @@ describe("timeout", () => {
   it("throws PetchTimeoutError when request exceeds timeout", async () => {
     mockFetch.mockImplementationOnce(
       () => new Promise((_, reject) =>
-        setTimeout(() => reject(Object.assign(new DOMException("timeout"), { name: "AbortError" })), 50)
+        setTimeout(() => {
+          const err = new Error("timeout");
+          err.name = "AbortError";
+          reject(err);
+        }, 50)
       )
     );
 
     await expect(
       petch("https://example.com/api", { timeout: 10, retry: false })
     ).rejects.toThrow(PetchTimeoutError);
-  });
+  }, 10000);
 });
 
 describe("lifecycle hooks", () => {
   it("calls onRequest before fetch", async () => {
     mockFetch.mockResolvedValueOnce(mockResponse({}));
-    const onRequest = jest.fn();
+    const onRequest = vi.fn();
 
     await petch("https://example.com/api", { onRequest });
     expect(onRequest).toHaveBeenCalledWith("https://example.com/api", expect.any(Object));
@@ -174,7 +179,7 @@ describe("lifecycle hooks", () => {
 
   it("calls onResponse after fetch", async () => {
     mockFetch.mockResolvedValueOnce(mockResponse({}));
-    const onResponse = jest.fn();
+    const onResponse = vi.fn();
 
     await petch("https://example.com/api", { onResponse });
     expect(onResponse).toHaveBeenCalledWith(expect.any(Response));
