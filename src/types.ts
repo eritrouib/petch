@@ -51,14 +51,21 @@ export interface PetchResponse<T = unknown> extends Response {
 }
 
 export class PetchError extends Error {
+  status?: number;
+  readonly response?: Response;
+  readonly attempt?: number;
+
   constructor(
     message: string,
-    public readonly status?: number,
-    public readonly response?: Response,
-    public readonly attempt?: number
+    status?: number,
+    response?: Response,
+    attempt?: number
   ) {
     super(message);
     this.name = "PetchError";
+    this.status = status;
+    this.response = response;
+    this.attempt = attempt;
   }
 }
 
