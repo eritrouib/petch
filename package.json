@@ -1,5 +1,5 @@
 {
-  "name": "petch",
+  "name": "petchr",
   "version": "1.2.0",
   "description": "A zero-dependency, TypeScript-native fetch wrapper with retry, timeout, and rate-limit handling",
   "main": "./dist/index.js",
@@ -46,10 +46,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/petch.git"
+    "url": "https://github.com/YOUR_USERNAME/petchr.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/petch/issues"
+    "url": "https://github.com/YOUR_USERNAME/petchr/issues"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/petch#readme"
+  "homepage": "https://github.com/YOUR_USERNAME/petchr#readme"
 }
