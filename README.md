@@ -1,9 +1,9 @@
-# @eritrouib/petchr
+# @ertr17/petchr
 
 A zero-dependency, TypeScript-native fetch wrapper with retry, timeout, rate-limiting, and a clean API.
 
 ```bash
-npm install @eritrouib/petchr
+npm install @ertr17/petchr
 ```
 
 > **Requires Node.js 18+** (uses native `fetch`)
